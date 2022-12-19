@@ -3,6 +3,7 @@ package com.simple.sms.controller;
 import com.simple.sms.model.Student;
 import com.simple.sms.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -28,11 +29,18 @@ public class StudentController {
     }
 
     // GET endpoint to /api/students
-    @GetMapping("/api/students")
+    @GetMapping( "/api/students")
     public List<Student> getAllStudents() {
         return studentService.findAll();
     }
 
+    // This GET endpoint shows an example of how to specify the return type
+    @GetMapping(value="/api/students/{id}/average", produces=MediaType.APPLICATION_JSON_VALUE)
+    public double getStudentGradeAverageById(@PathVariable String id) {
+        return studentService.getStudentAverageById(id);
+    }
+
+    // PUT endpoint to update student grade in a specific course
     @PutMapping("/api/students/{id}/updateGrade")
     @ResponseBody
     public String updateStudentGrade(@PathVariable String id, @RequestBody HashMap<String, Object> body) {

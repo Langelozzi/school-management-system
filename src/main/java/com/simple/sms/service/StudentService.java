@@ -58,4 +58,19 @@ public class StudentService {
     public void deleteStudentById(String id) {
         studentRepo.deleteById(id);
     }
+
+    public double getStudentAverageById(String id) {
+        Student student = null;
+
+        Optional<Student> studentRef = studentRepo.findById(id);
+        if (studentRef.isPresent()) {
+            student = studentRef.get();
+        }
+
+        if (student != null) {
+            return student.calculateAverage();
+        } else {
+            return -1;
+        }
+    }
 }
