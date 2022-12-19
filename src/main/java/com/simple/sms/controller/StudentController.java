@@ -47,4 +47,9 @@ public class StudentController {
             return "Grade update successful!";
         }
     }
+
+    @DeleteMapping("/api/students/{id}/delete")
+    public void deleteStudentById(@PathVariable String id) {
+        studentService.deleteStudentById(id);
+    }
 }
