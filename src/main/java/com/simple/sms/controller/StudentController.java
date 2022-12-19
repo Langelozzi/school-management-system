@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.UUID;
 
 // If using @RequestMapping then you don't specify for each endpoint
 // @RequestMapping("/api/students")

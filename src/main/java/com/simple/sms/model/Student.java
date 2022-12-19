@@ -1,13 +1,11 @@
 package com.simple.sms.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Objects;
-import java.util.UUID;
 
 @Document("students")
 public class Student {
