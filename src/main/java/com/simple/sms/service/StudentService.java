@@ -38,11 +38,24 @@ public class StudentService {
         studentRepo.save(student);
     }
 
-    public void updateStudentGrade(String studentId, String courseName, int grade) {
-        Student student = studentRepo.findStudentById(studentId);
+    public boolean updateStudentGrade(String studentId, String courseName, int grade) {
+        Student student = null;
+        
+        Optional<Student> studentRef = studentRepo.findById(studentId);
+        if (studentRef.isPresent()) {
+            student = studentRef.get();
+        }
 
-        student.updateGrade(courseName, grade);
+        if (student != null) {
+            student.updateGrade(courseName, grade);
+            studentRepo.save(student);
+            return true;
+        } else {
+            return false;
+        }
+    }
 
-        studentRepo.save(student);
+    public void deleteStudentById(String id) {
+        studentRepo.deleteById(id);
     }
 }

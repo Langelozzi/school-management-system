@@ -10,7 +10,4 @@ import java.util.Optional;
 public interface StudentRepository extends MongoRepository<Student, String> {
     @Query("{}")
     List<Student> findAll();
-
-    @Query("{'_id':'?0'}")
-    Student findStudentById(String id);
 }

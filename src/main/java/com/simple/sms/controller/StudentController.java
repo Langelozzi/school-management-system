@@ -34,10 +34,17 @@ public class StudentController {
     }
 
     @PutMapping("/api/students/{id}/updateGrade")
-    public void updateStudentGrade(@PathVariable String id, @RequestBody HashMap<String, Object> body) {
+    @ResponseBody
+    public String updateStudentGrade(@PathVariable String id, @RequestBody HashMap<String, Object> body) {
         String courseName = (String) body.get("course");
         int grade = (int) body.get("grade");
 
-        studentService.updateStudentGrade(id, courseName, grade);
+        boolean gradeUpdated = studentService.updateStudentGrade(id, courseName, grade);
+
+        if (!gradeUpdated) {
+            return "Grade update failed: No student found with that id.";
+        } else {
+            return "Grade update successful!";
+        }
     }
 }
