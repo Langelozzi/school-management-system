@@ -12,6 +12,7 @@ import java.util.List;
 // If using @RequestMapping then you don't specify for each endpoint
 // @RequestMapping("/api/students")
 @RestController
+@CrossOrigin(origins="http://localhost:3000/")
 public class StudentController {
 
     // Instantiate a student service object using autowired
