@@ -11,26 +11,33 @@ import java.util.UUID;
 
 @Document("students")
 public class Student {
-    @Id
-    private UUID id;
-
+    private String id;
     private String name;
     private int age;
     private HashMap<String, Integer> courseGrades = new HashMap<>();
 
     // Constructor
     public Student(
+            @JsonProperty("id") String id,
             @JsonProperty("name") String name,
             @JsonProperty("age") int age,
             @JsonProperty("courseGrades") HashMap<String, Integer> courseGrades
     ) {
+        this.id = id;
         this.name = name;
         this.age = age;
         this.courseGrades = courseGrades;
-        this.id = UUID.randomUUID();
     }
 
     // Getters and Setters
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
     public String getName() {
         return name;
     }
@@ -45,14 +52,6 @@ public class Student {
 
     public void setAge(int age) {
         this.age = age;
-    }
-
-    public UUID getId() {
-        return this.id;
-    }
-
-    public void setId(UUID studentId) {
-        this.id = studentId;
     }
 
     public HashMap<String, Integer> getCourseGrades() {
@@ -84,6 +83,6 @@ public class Student {
     // Overriding Special Methods
     @Override
     public String toString() {
-        return String.format("[%s - (Student Id: %s)]", this.name, this.id);
+        return String.format("[%s]", this.name);
     }
 }

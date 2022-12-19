@@ -7,6 +7,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class StudentService {
@@ -18,21 +20,29 @@ public class StudentService {
         this.studentRepo = studentRepo;
     }
 
-    public void createStudents() {
-        HashMap<String, Integer> courseGrades = new HashMap<>();
-        courseGrades.put("COMP 1510", 95);
-        courseGrades.put("COMP 1537", 90);
-        courseGrades.put("COMP 1800", 93);
+    // public void createStudents() {
+    //     HashMap<String, Integer> courseGrades = new HashMap<>();
+    //     courseGrades.put("COMP 1510", 95);
+    //     courseGrades.put("COMP 1537", 90);
+    //     courseGrades.put("COMP 1800", 93);
+    //
+    //     studentRepo.save(new Student("Lucas Angelozzi", 19, courseGrades));
+    //     studentRepo.save(new Student("Bob Vance", 24, courseGrades));
+    // }
 
-        studentRepo.save(new Student("Lucas Angelozzi", 19, courseGrades));
-        studentRepo.save(new Student("Bob Vance", 24, courseGrades));
+    public List<Student> findAll() {
+        return studentRepo.findAll();
     }
 
     public void addStudent(Student student) {
         studentRepo.save(student);
     }
 
-    public List<Student> findAll() {
-        return studentRepo.findAll();
+    public void updateStudentGrade(String studentId, String courseName, int grade) {
+        Student student = studentRepo.findStudentById(studentId);
+
+        student.updateGrade(courseName, grade);
+
+        studentRepo.save(student);
     }
 }
