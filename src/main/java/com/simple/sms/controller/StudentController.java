@@ -36,8 +36,10 @@ public class StudentController {
 
     // This GET endpoint shows an example of how to specify the return type
     @GetMapping(value="/api/students/{id}/average", produces=MediaType.APPLICATION_JSON_VALUE)
-    public double getStudentGradeAverageById(@PathVariable String id) {
-        return studentService.getStudentAverageById(id);
+    public HashMap<String, Double> getStudentGradeAverageById(@PathVariable String id) {
+        return new HashMap<>() {{
+            put("average", studentService.getStudentAverageById(id));
+        }};
     }
 
     // PUT endpoint to update student grade in a specific course
