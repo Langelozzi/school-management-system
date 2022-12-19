@@ -5,6 +5,7 @@ import com.simple.sms.repository.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.swing.text.html.Option;
 import java.util.List;
 import java.util.Optional;
 
@@ -12,49 +13,30 @@ import java.util.Optional;
 public class StudentService {
 
     private final StudentRepository studentRepo;
-
     @Autowired
     public StudentService(StudentRepository studentRepo) {
         this.studentRepo = studentRepo;
     }
 
-    // public void createStudents() {
-    //     HashMap<String, Integer> courseGrades = new HashMap<>();
-    //     courseGrades.put("COMP 1510", 95);
-    //     courseGrades.put("COMP 1537", 90);
-    //     courseGrades.put("COMP 1800", 93);
-    //
-    //     studentRepo.save(new Student("Lucas Angelozzi", 19, courseGrades));
-    //     studentRepo.save(new Student("Bob Vance", 24, courseGrades));
-    // }
-
-    public List<Student> findAll() {
-        return studentRepo.findAll();
-    }
-
+    // ####################### Create #######################
     public void addStudent(Student student) {
         studentRepo.save(student);
     }
 
-    public boolean updateStudentGrade(String studentId, String courseName, int grade) {
+    // ####################### Read #######################
+    public List<Student> findAll() {
+        return studentRepo.findAll();
+    }
+
+    public Student getStudentById(String id) {
         Student student = null;
-        
-        Optional<Student> studentRef = studentRepo.findById(studentId);
+
+        Optional<Student> studentRef = studentRepo.findById(id);
         if (studentRef.isPresent()) {
             student = studentRef.get();
         }
 
-        if (student != null) {
-            student.updateGrade(courseName, grade);
-            studentRepo.save(student);
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    public void deleteStudentById(String id) {
-        studentRepo.deleteById(id);
+        return student;
     }
 
     public double getStudentAverageById(String id) {
@@ -70,5 +52,38 @@ public class StudentService {
         } else {
             return -1;
         }
+    }
+
+    // ####################### Update #######################
+    public Student updateStudent(String id, Student updatedStudent) {
+        Student student = getStudentById(id);
+
+        // Add original student id to the updated student instance and save it back to database
+        updatedStudent.setId(student.getId());
+        studentRepo.save(updatedStudent);
+
+        return updatedStudent;
+    }
+
+    public boolean updateStudentGrade(String studentId, String courseName, int grade) {
+        Student student = null;
+
+        Optional<Student> studentRef = studentRepo.findById(studentId);
+        if (studentRef.isPresent()) {
+            student = studentRef.get();
+        }
+
+        if (student != null) {
+            student.updateGrade(courseName, grade);
+            studentRepo.save(student);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    // ####################### Delete #######################
+    public void deleteStudentById(String id) {
+        studentRepo.deleteById(id);
     }
 }
