@@ -1,4 +1,5 @@
 import React from 'react'
+import { Button } from 'react-bootstrap';
 import Student from '../Student/Student';
 import './StudentList.css';
 
@@ -13,6 +14,10 @@ export default function StudentList({ students }) {
                     })
                 }
             </div>
+            <div className='text-center'>
+                <Button variant='success'> &#x2b; New Student </Button>
+            </div>
+            {/* add pop up modal for creating a new one */}
         </div>
     )
 }
