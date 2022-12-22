@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { getAllStudents } from './service/studentService';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import './App.css';
 
 import Nav from './components/Nav/Nav';
@@ -24,11 +24,15 @@ function App() {
     }
 
     return (
-        <div className="App">
+        <Router>
             <Nav />
-            <StudentList />
-            {/* <button onClick={logStudents}>Get students</button> */}
-        </div>
+            <div className='content'>
+                <Routes>
+                    <Route path='/' element={<button>Hello world</button>} />
+                    <Route path='/students' element={<StudentList students={students} />} />
+                </Routes>
+            </div>
+        </Router>
     );
 }
 

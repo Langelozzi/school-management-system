@@ -17,3 +17,9 @@ nav {
     flex-direction: row;
     justify-content: space-around;
 }
+
+a,
+a:visited {
+    text-decoration: none;
+    color: #fff;
+}
