@@ -65,6 +65,10 @@ export default function Student({ student }) {
                             </tr>
                         </tbody>
                     </table>
+                    <div className='student-btn-container'>
+                        <Button variant='danger'>Delete</Button>
+                        <Button variant='warning'>Edit</Button>
+                    </div>
                 </Accordion.Body>
             </Accordion.Item>
         </Accordion>

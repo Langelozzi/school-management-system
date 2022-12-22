@@ -2,6 +2,14 @@
     margin-top: 1%;
 }
 
+.student-btn-container {
+    width: 50%;
+}
+
+.student-btn-container .btn:nth-child(2) {
+    margin-left: 2%;
+}
+
 .student-info-table td {
     vertical-align: top;
 }

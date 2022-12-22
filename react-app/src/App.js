@@ -19,10 +19,6 @@ function App() {
         fetchStudents();
     }, []);
 
-    function logStudents() {
-        console.log(students);
-    }
-
     return (
         <Router>
             <Nav />
