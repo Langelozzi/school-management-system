@@ -1,0 +1,11 @@
+#student-list-container {}
+
+#student-list {
+    margin: auto;
+    width: 90%;
+    padding: 10px;
+}
+
+h1 {
+    color: #fff;
+}

@@ -1,0 +1,35 @@
+.student-accordian {
+    margin-top: 1%;
+}
+
+.student-info-table td {
+    vertical-align: top;
+}
+
+.info-cell {
+    width: 5%;
+}
+
+.course-grades-table {
+    width: 100%;
+}
+
+h5 {
+    margin-bottom: 0;
+}
+
+.course-table-header {
+    width: 74%;
+}
+
+.grade-cell {
+    text-align: right;
+}
+
+.average-title {
+    margin-bottom: 0px;
+}
+
+td h5 {
+    margin: 4% 0;
+}

@@ -7,4 +7,12 @@ async function getAllStudents() {
     return response.data;
 }
 
-export { getAllStudents };
+async function getStudentAverageGrade(studentId) {
+    const response = await axios.get(`${configData.apiUrl}/students/${studentId}/average`);
+    return response.data;
+}
+
+export {
+    getAllStudents,
+    getStudentAverageGrade
+};
