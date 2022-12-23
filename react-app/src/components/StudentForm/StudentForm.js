@@ -1,33 +1,70 @@
 import React from 'react'
 import { Button, Modal, Form, Row, Col } from 'react-bootstrap'
+import { getRandomIntegerInRange } from '../../helpers/mathHelper';
 
 export default function StudentForm() {
     // A state (variable) to handle the showing and closing of the modal form
     const [show, setShow] = React.useState(false);
     // A state for storing the name input value
-    const [nameInputValue, setNameInputValue] = React.useState({ name: '' });
+    const [nameInputValue, setNameInputValue] = React.useState('');
     // A state for storing the age input value
-    const [ageInputValue, setAgeInputValue] = React.useState({ age: '' });
+    const [ageInputValue, setAgeInputValue] = React.useState('');
     // A state for storing the course input values
     const [courseInputValues, setCourseInputValues] = React.useState([{ course: '', grade: '' }]);
 
     // methods for closing and showing the modal
-    const handleClose = () => { setShow(false) };
-    const handleShow = () => { setShow(true) };
+    function handleShow() { setShow(true) };
+
+    function handleClose() { setShow(false) };
 
     // method for updating the input value
-    function updateInputValue(stateSetter, event) {
+    function updateInputValue(stateSetter, event, index = null) {
         const value = event.target.value;
 
-        stateSetter(value);
+        // will have index if modifying a course or grade
+        if (index != null) {
+            let formValues = [...courseInputValues];
+            formValues[index][event.target.name] = value;
+            stateSetter(formValues);
+        } else {
+            stateSetter(value);
+        }
+
+    }
+
+    function addCourseInput() {
+        setCourseInputValues(
+            [...courseInputValues, { course: '', grade: '' }]
+        )
+    }
+
+    function removeCourseInput(index) {
+        let formValues = [...courseInputValues];
+
+        // 2nd param means to only remove one item
+        formValues.splice(index, 1);
+
+        setCourseInputValues(formValues);
+    }
+
+    function resetForm() {
+        setNameInputValue('');
+        setAgeInputValue('');
+        setCourseInputValues([{ course: '', grade: '' }]);
     }
 
     // method for submitting the new student data to the database
     function submitForm() {
+        const courseGrades = {};
+
+        for (const courseGrade of courseInputValues) {
+            courseGrades[courseGrade.course] = Number(courseGrade.grade);
+        }
+
         const newStudentReqBody = {
             name: nameInputValue,
             age: Number(ageInputValue),
-            courseGrades: courseInputValues
+            courseGrades: courseGrades
         };
 
         console.log(newStudentReqBody);
@@ -55,6 +92,7 @@ export default function StudentForm() {
                             <Form.Control
                                 type="text"
                                 placeholder="Student full name"
+                                value={nameInputValue}
                                 onChange={event => updateInputValue(setNameInputValue, event)}
                             />
                             {/* ###could use this for errors### <Form.Text className="text-muted">
@@ -67,43 +105,83 @@ export default function StudentForm() {
                             <Form.Control
                                 type="number"
                                 placeholder="Age (years)"
+                                value={ageInputValue}
                                 onChange={event => updateInputValue(setAgeInputValue, event)}
                             />
                         </Form.Group>
 
-                        {/* {
-                            courseInputValues.map((element, index) => {
-                                return (
-
-                                )
-                            })
-                        } */}
                         <Row>
                             <Col xs={8}>
-                                <Form.Group className="mb-3" controlId="form-age">
-                                    <Form.Label> Course </Form.Label>
-                                    <Form.Control type="text" placeholder="Course number (e.g. COMP 1510)" />
-                                </Form.Group>
+                                <Form.Label> Course </Form.Label>
                             </Col>
-                            <Col>
-                                <Form.Group className="mb-3" controlId="form-age">
-                                    <Form.Label> Grade </Form.Label>
-                                    <Form.Control type="number" placeholder="Grade (%)" />
-                                </Form.Group>
+                            <Col xs={3}>
+                                <Form.Label> Grade </Form.Label>
                             </Col>
                         </Row>
+                        {
+                            courseInputValues.map((element, index) => {
+                                return (
+                                    <Row key={index}>
+                                        <Col xs={8}>
+                                            <Form.Group className="mb-3" controlId={`form-course-${index}`}>
+                                                <Form.Control
+                                                    type="text"
+                                                    placeholder="Course number (e.g. COMP 1510)"
+                                                    name='course'
+                                                    value={element.course}
+                                                    onChange={event => updateInputValue(setCourseInputValues, event, index)}
+                                                />
+                                            </Form.Group>
+                                        </Col>
+                                        <Col xs={3}>
+                                            <Form.Group className="mb-3" controlId={`form-grade-${index}`}>
+                                                <Form.Control
+                                                    type="number"
+                                                    placeholder="Grade (%)"
+                                                    name='grade'
+                                                    value={element.grade}
+                                                    onChange={event => updateInputValue(setCourseInputValues, event, index)}
+                                                />
+                                            </Form.Group>
+                                        </Col>
+                                        <Col>
+                                            {
+                                                index === 0 ?
+                                                    null
+                                                    :
+                                                    <Button
+                                                        variant='danger'
+                                                        onClick={() => removeCourseInput(index)}
+                                                    >
+                                                        &#x2715;
+                                                    </Button>
+
+                                            }
+                                        </Col>
+                                    </Row>
+                                )
+                            })
+                        }
                     </Form>
+                    <div className='text-center'>
+                        <Button variant='primary' onClick={addCourseInput}>Add Course</Button>
+                    </div>
                 </Modal.Body>
 
-                <Modal.Footer>
-                    <Button variant="danger" onClick={handleClose}>
-                        Cancel
+                <Modal.Footer className='justify-content-between'>
+                    <Button variant='warning' onClick={resetForm}>
+                        Reset Form
                     </Button>
-                    <Button variant="success" onClick={submitForm}>
-                        Add
-                    </Button>
+                    <div>
+                        <Button variant="secondary" className='mx-2' onClick={handleClose}>
+                            Cancel
+                        </Button>
+                        <Button variant="success" onClick={submitForm}>
+                            Add
+                        </Button>
+                    </div>
                 </Modal.Footer>
             </Modal>
-        </div>
+        </div >
     )
 }
