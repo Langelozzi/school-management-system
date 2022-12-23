@@ -12,7 +12,16 @@ async function getStudentAverageGrade(studentId) {
     return response.data;
 }
 
+async function postStudent(reqBody) {
+    const response = await axios.post(
+        `${configData.apiUrl}/students/add`,
+        reqBody
+    )
+    return response;
+}
+
 export {
     getAllStudents,
-    getStudentAverageGrade
+    getStudentAverageGrade,
+    postStudent
 };

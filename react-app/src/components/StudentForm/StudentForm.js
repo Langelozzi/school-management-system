@@ -1,8 +1,8 @@
 import React from 'react'
 import { Button, Modal, Form, Row, Col } from 'react-bootstrap'
-import { getRandomIntegerInRange } from '../../helpers/mathHelper';
+import { postStudent } from '../../service/studentService';
 
-export default function StudentForm() {
+export default function StudentForm({ fetchStudents }) {
     // A state (variable) to handle the showing and closing of the modal form
     const [show, setShow] = React.useState(false);
     // A state for storing the name input value
@@ -54,7 +54,7 @@ export default function StudentForm() {
     }
 
     // method for submitting the new student data to the database
-    function submitForm() {
+    async function submitForm() {
         const courseGrades = {};
 
         for (const courseGrade of courseInputValues) {
@@ -67,7 +67,8 @@ export default function StudentForm() {
             courseGrades: courseGrades
         };
 
-        console.log(newStudentReqBody);
+        await postStudent(newStudentReqBody);
+        await fetchStudents();
 
         handleClose();
     }
