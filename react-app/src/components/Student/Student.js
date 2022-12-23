@@ -1,9 +1,9 @@
 import React from 'react'
 import { Accordion, Button } from 'react-bootstrap'
 import './Student.css';
-import { getStudentAverageGrade } from '../../service/studentService'
+import { getStudentAverageGrade, deleteStudent } from '../../service/studentService'
 
-export default function Student({ student }) {
+export default function Student({ student, fetchStudents }) {
     const [averageResult, setAverageResult] = React.useState('');
 
     async function getAndDisplayAverage() {
@@ -11,6 +11,13 @@ export default function Student({ student }) {
         const averageString = `${averageObj.average.toPrecision(3)}%`;
 
         setAverageResult(averageString);
+    }
+
+    async function deleteThisStudent() {
+        // add a modal here to ensure they actually want to delete the student first
+
+        await deleteStudent(student.id);
+        await fetchStudents();
     }
 
     return (
@@ -66,7 +73,7 @@ export default function Student({ student }) {
                         </tbody>
                     </table>
                     <div className='student-btn-container'>
-                        <Button variant='danger'>Delete</Button>
+                        <Button variant='danger' onClick={deleteThisStudent}>Delete</Button>
                         <Button variant='warning'>Edit</Button>
                     </div>
                 </Accordion.Body>

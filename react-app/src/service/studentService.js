@@ -16,12 +16,18 @@ async function postStudent(reqBody) {
     const response = await axios.post(
         `${configData.apiUrl}/students/add`,
         reqBody
-    )
+    );
+    return response;
+}
+
+async function deleteStudent(id) {
+    const response = await axios.delete(`${configData.apiUrl}/students/${id}/delete`);
     return response;
 }
 
 export {
     getAllStudents,
     getStudentAverageGrade,
-    postStudent
+    postStudent,
+    deleteStudent
 };

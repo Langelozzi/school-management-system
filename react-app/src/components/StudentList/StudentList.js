@@ -24,7 +24,7 @@ export default function StudentList() {
                 <h1>Students</h1>
                 {
                     students.map(student => {
-                        return <Student key={student.id} student={student} />
+                        return <Student key={student.id} student={student} fetchStudents={fetchStudents} />
                     })
                 }
             </div>
