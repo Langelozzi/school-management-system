@@ -77,9 +77,7 @@ export default function StudentForm({ fetchStudents }) {
 
     return (
         <div>
-            <div className='text-center'>
-                <Button variant='success' onClick={handleShow}> &#x2b; New Student </Button>
-            </div>
+            <Button variant='success' onClick={handleShow}> &#x2b; New Student </Button>
 
             <Modal show={show} onHide={handleClose} size="lg"
                 aria-labelledby="contained-modal-title-vcenter"

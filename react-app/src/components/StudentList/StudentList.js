@@ -28,7 +28,9 @@ export default function StudentList() {
                     })
                 }
             </div>
-            <StudentForm fetchStudents={fetchStudents} />
+            <div className='text-center'>
+                <StudentForm fetchStudents={fetchStudents} />
+            </div>
         </div>
     )
 }
