@@ -58,7 +58,9 @@ export default function StudentForm({ fetchStudents }) {
         const courseGrades = {};
 
         for (const courseGrade of courseInputValues) {
-            courseGrades[courseGrade.course] = Number(courseGrade.grade);
+            if (courseGrade.course !== '') {
+                courseGrades[courseGrade.course] = Number(courseGrade.grade);
+            }
         }
 
         const newStudentReqBody = {
