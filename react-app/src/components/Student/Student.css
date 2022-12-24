@@ -41,3 +41,7 @@ h5 {
 td h5 {
     margin: 4% 0;
 }
+
+.student-btn-container button {
+    margin-right: 1%;
+}
