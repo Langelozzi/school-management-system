@@ -1,0 +1,22 @@
+.home {
+    background-image: url('../../images/cool-background.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: 700px;
+}
+
+.card {
+    padding-top: 200px !important;
+    background-color: #cccccc00;
+    border: none;
+}
+
+.card-title {
+    font-size: 5rem;
+    color: #fff;
+}
+
+.card-text {
+    font-size: large;
+    color: #fff;
+}

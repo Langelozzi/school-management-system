@@ -5,6 +5,7 @@ import './App.css';
 
 import Nav from './components/Nav/Nav';
 import StudentList from './components/StudentList/StudentList';
+import Home from './components/Home/Home';
 
 function App() {
     return (
@@ -12,7 +13,7 @@ function App() {
             <Nav />
             <div className='content'>
                 <Routes>
-                    <Route path='/' element={<button>Hello world</button>} />
+                    <Route path='/' element={<Home />} />
                     <Route path='/students' element={<StudentList />} />
                 </Routes>
             </div>
