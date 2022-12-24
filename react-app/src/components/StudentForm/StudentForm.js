@@ -19,22 +19,21 @@ export default function StudentForm({ fetchStudents, edit, student }) {
 
     React.useEffect(() => {
         if (edit) {
+            function autoFillForm() {
+                setNameInputValue(student.name);
+                setAgeInputValue(student.age);
+
+                let courseFormValues = [];
+                for (const [course, grade] of Object.entries(student.courseGrades)) {
+                    courseFormValues.push({ course: course, grade: grade })
+                }
+
+                setCourseInputValues(courseFormValues);
+            }
+
             autoFillForm();
         }
-    }, []);
-
-    // method for autofilling the form inputs when editing
-    function autoFillForm() {
-        setNameInputValue(student.name);
-        setAgeInputValue(student.age);
-
-        let courseFormValues = [];
-        for (const [course, grade] of Object.entries(student.courseGrades)) {
-            courseFormValues.push({ course: course, grade: grade })
-        }
-
-        setCourseInputValues(courseFormValues);
-    }
+    }, [edit, student]);
 
     // method for updating the input value
     function updateInputValue(stateSetter, event, index = null) {
