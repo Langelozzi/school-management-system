@@ -25,9 +25,18 @@ async function deleteStudent(id) {
     return response;
 }
 
+async function putStudent(id, reqBody) {
+    const response = await axios.put(
+        `${configData.apiUrl}/students/${id}/update`,
+        reqBody
+    )
+    return response;
+}
+
 export {
     getAllStudents,
     getStudentAverageGrade,
     postStudent,
-    deleteStudent
+    deleteStudent,
+    putStudent
 };

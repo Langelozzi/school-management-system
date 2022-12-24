@@ -1,6 +1,6 @@
 import React from 'react'
 import { Button, Modal, Form, Row, Col } from 'react-bootstrap'
-import { postStudent } from '../../service/studentService';
+import { postStudent, putStudent } from '../../service/studentService';
 
 export default function StudentForm({ fetchStudents, edit, student }) {
     // A state (variable) to handle the showing and closing of the modal form
@@ -16,6 +16,25 @@ export default function StudentForm({ fetchStudents, edit, student }) {
     function handleShow() { setShow(true) };
 
     function handleClose() { setShow(false) };
+
+    React.useEffect(() => {
+        if (edit) {
+            autoFillForm();
+        }
+    }, []);
+
+    // method for autofilling the form inputs when editing
+    function autoFillForm() {
+        setNameInputValue(student.name);
+        setAgeInputValue(student.age);
+
+        let courseFormValues = [];
+        for (const [course, grade] of Object.entries(student.courseGrades)) {
+            courseFormValues.push({ course: course, grade: grade })
+        }
+
+        setCourseInputValues(courseFormValues);
+    }
 
     // method for updating the input value
     function updateInputValue(stateSetter, event, index = null) {
@@ -54,7 +73,7 @@ export default function StudentForm({ fetchStudents, edit, student }) {
     }
 
     // method for submitting the new student data to the database
-    async function submitForm() {
+    async function createStudent() {
         const courseGrades = {};
 
         for (const courseGrade of courseInputValues) {
@@ -70,6 +89,27 @@ export default function StudentForm({ fetchStudents, edit, student }) {
         };
 
         await postStudent(newStudentReqBody);
+        await fetchStudents();
+
+        handleClose();
+    }
+    // method for submitting the updated student data to the database
+    async function updateStudent() {
+        const courseGrades = {};
+
+        for (const courseGrade of courseInputValues) {
+            if (courseGrade.course !== '') {
+                courseGrades[courseGrade.course] = Number(courseGrade.grade);
+            }
+        }
+
+        const updatedStudentReqBody = {
+            name: nameInputValue,
+            age: Number(ageInputValue),
+            courseGrades: courseGrades
+        };
+
+        await putStudent(student.id, updatedStudentReqBody)
         await fetchStudents();
 
         handleClose();
@@ -116,7 +156,7 @@ export default function StudentForm({ fetchStudents, edit, student }) {
                                 <Form.Label> Course </Form.Label>
                             </Col>
                             <Col xs={3}>
-                                <Form.Label> Grade </Form.Label>
+                                <Form.Label> Grade (%) </Form.Label>
                             </Col>
                         </Row>
                         {
@@ -182,9 +222,16 @@ export default function StudentForm({ fetchStudents, edit, student }) {
                         <Button variant="secondary" className='mx-2' onClick={handleClose}>
                             Cancel
                         </Button>
-                        <Button variant="success" onClick={submitForm}>
-                            {edit ? 'Save' : 'Add'}
-                        </Button>
+                        {
+                            edit ?
+                                <Button variant="success" onClick={updateStudent}>
+                                    Save Changes
+                                </Button>
+                                :
+                                <Button variant="success" onClick={createStudent}>
+                                    Add
+                                </Button>
+                        }
                     </div>
                 </Modal.Footer>
             </Modal>

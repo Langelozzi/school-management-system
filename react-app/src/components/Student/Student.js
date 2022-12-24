@@ -75,7 +75,7 @@ export default function Student({ student, fetchStudents }) {
                     </table>
                     <div className='student-btn-container'>
                         <Button variant='danger' onClick={deleteThisStudent}>Delete</Button>
-                        <StudentForm fetchStudents={fetchStudents} edit={true} />
+                        <StudentForm fetchStudents={fetchStudents} edit={true} student={student} />
                     </div>
                 </Accordion.Body>
             </Accordion.Item>
