@@ -1,12 +1,21 @@
 import React from 'react'
-import { Accordion, Button } from 'react-bootstrap'
+import { Accordion, Button, Modal } from 'react-bootstrap'
 import './Student.css';
 import { getStudentAverageGrade, deleteStudent } from '../../service/studentService'
 import StudentForm from '../StudentForm/StudentForm';
 
 export default function Student({ student, fetchStudents }) {
+    // A state (variable) to handle the showing and closing of the modal form
+    const [show, setShow] = React.useState(false);
+
     const [averageResult, setAverageResult] = React.useState('');
 
+    // methods for closing and showing the modal
+    function handleShow() { setShow(true) };
+
+    function handleClose() { setShow(false) };
+
+    // method for calling average api endpoint
     async function getAndDisplayAverage() {
         const averageObj = await getStudentAverageGrade(student.id)
         const averageString = `${averageObj.average.toPrecision(3)}%`;
@@ -14,11 +23,12 @@ export default function Student({ student, fetchStudents }) {
         setAverageResult(averageString);
     }
 
+    // method for deleting the student
     async function deleteThisStudent() {
-        // add a modal here to ensure they actually want to delete the student first
-
         await deleteStudent(student.id);
         await fetchStudents();
+
+        handleClose();
     }
 
     return (
@@ -73,10 +83,30 @@ export default function Student({ student, fetchStudents }) {
                             </tr>
                         </tbody>
                     </table>
+
                     <div className='student-btn-container'>
-                        <Button variant='danger' onClick={deleteThisStudent}>Delete</Button>
+                        <Button variant='danger' onClick={handleShow}>Delete</Button>
                         <StudentForm fetchStudents={fetchStudents} edit={true} student={student} />
                     </div>
+
+                    <Modal
+                        show={show}
+                        onHide={handleClose}
+                    >
+                        <Modal.Header closeButton>
+                            <Modal.Title>Delete Student</Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>Are you sure you would like to delete {student.name} from the database?</Modal.Body>
+                        <Modal.Footer>
+                            <Button variant="secondary" onClick={handleClose}>
+                                Cancel
+                            </Button>
+                            <Button variant="danger" onClick={deleteThisStudent}>
+                                Delete
+                            </Button>
+                        </Modal.Footer>
+                    </Modal>
+
                 </Accordion.Body>
             </Accordion.Item>
         </Accordion>

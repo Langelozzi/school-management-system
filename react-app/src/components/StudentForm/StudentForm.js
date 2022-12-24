@@ -118,9 +118,13 @@ export default function StudentForm({ fetchStudents, edit, student }) {
         <span>
             <Button variant={edit ? 'warning' : 'success'} onClick={handleShow}> {edit ? 'Edit' : '+ New Student'} </Button>
 
-            <Modal show={show} onHide={handleClose} size="lg"
+            <Modal
+                show={show}
+                onHide={handleClose}
+                size="lg"
                 aria-labelledby="contained-modal-title-vcenter"
-                centered>
+                centered
+            >
                 <Modal.Header closeButton>
                     <Modal.Title> {edit ? 'Edit Student' : 'Add a New Student'} </Modal.Title>
                 </Modal.Header>
