@@ -2,6 +2,7 @@ import React from 'react'
 import { Accordion, Button } from 'react-bootstrap'
 import './Student.css';
 import { getStudentAverageGrade, deleteStudent } from '../../service/studentService'
+import StudentForm from '../StudentForm/StudentForm';
 
 export default function Student({ student, fetchStudents }) {
     const [averageResult, setAverageResult] = React.useState('');
@@ -74,7 +75,7 @@ export default function Student({ student, fetchStudents }) {
                     </table>
                     <div className='student-btn-container'>
                         <Button variant='danger' onClick={deleteThisStudent}>Delete</Button>
-                        <Button variant='warning'>Edit</Button>
+                        <StudentForm fetchStudents={fetchStudents} edit={true} />
                     </div>
                 </Accordion.Body>
             </Accordion.Item>

@@ -2,7 +2,7 @@ import React from 'react'
 import { Button, Modal, Form, Row, Col } from 'react-bootstrap'
 import { postStudent } from '../../service/studentService';
 
-export default function StudentForm({ fetchStudents }) {
+export default function StudentForm({ fetchStudents, edit, student }) {
     // A state (variable) to handle the showing and closing of the modal form
     const [show, setShow] = React.useState(false);
     // A state for storing the name input value
@@ -76,14 +76,14 @@ export default function StudentForm({ fetchStudents }) {
     }
 
     return (
-        <div>
-            <Button variant='success' onClick={handleShow}> &#x2b; New Student </Button>
+        <span>
+            <Button variant={edit ? 'warning' : 'success'} onClick={handleShow}> {edit ? 'Edit' : '+ New Student'} </Button>
 
             <Modal show={show} onHide={handleClose} size="lg"
                 aria-labelledby="contained-modal-title-vcenter"
                 centered>
                 <Modal.Header closeButton>
-                    <Modal.Title> Add a New Student </Modal.Title>
+                    <Modal.Title> {edit ? 'Edit Student' : 'Add a New Student'} </Modal.Title>
                 </Modal.Header>
 
                 <Modal.Body>
@@ -169,20 +169,25 @@ export default function StudentForm({ fetchStudents }) {
                     </div>
                 </Modal.Body>
 
-                <Modal.Footer className='justify-content-between'>
-                    <Button variant='warning' onClick={resetForm}>
-                        Reset Form
-                    </Button>
+                <Modal.Footer className={edit ? '' : 'justify-content-between'}>
+                    {
+                        edit ?
+                            null
+                            :
+                            <Button variant='warning' onClick={resetForm}>
+                                Reset Form
+                            </Button>
+                    }
                     <div>
                         <Button variant="secondary" className='mx-2' onClick={handleClose}>
                             Cancel
                         </Button>
                         <Button variant="success" onClick={submitForm}>
-                            Add
+                            {edit ? 'Save' : 'Add'}
                         </Button>
                     </div>
                 </Modal.Footer>
             </Modal>
-        </div >
+        </span >
     )
 }
