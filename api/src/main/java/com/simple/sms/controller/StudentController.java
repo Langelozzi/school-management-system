@@ -22,16 +22,15 @@ public class StudentController {
         this.studentService = studentService;
     }
 
-    // POST endpoint to /api/students/add
-    @PostMapping("/api/students/add")
-    public void addStudent(@RequestBody Student student) {
-        studentService.addStudent(student);
-    }
-
-    // GET endpoint to /api/students
+    // GET
     @GetMapping( "/api/students")
     public List<Student> getAllStudents() {
         return studentService.findAll();
+    }
+
+    @GetMapping( "/api/students/{id}")
+    public Student getStudentById(@PathVariable String id) {
+        return studentService.getStudentById(id);
     }
 
     // This GET endpoint shows an example of how to specify the return type
@@ -42,7 +41,18 @@ public class StudentController {
         }};
     }
 
-    // PUT endpoint to update student grade in a specific course
+    // POST
+    @PostMapping("/api/students/add")
+    public void addStudent(@RequestBody Student student) {
+        studentService.addStudent(student);
+    }
+
+    // PUT
+    @PutMapping("/api/students/{id}/update")
+    public void updateStudent(@PathVariable String id, @RequestBody Student updatedStudent) {
+        studentService.updateStudent(id, updatedStudent);
+    }
+
     @PutMapping("/api/students/{id}/updateGrade")
     @ResponseBody
     public String updateStudentGrade(@PathVariable String id, @RequestBody HashMap<String, Object> body) {
@@ -58,6 +68,7 @@ public class StudentController {
         }
     }
 
+    // DELETE
     @DeleteMapping("/api/students/{id}/delete")
     public void deleteStudentById(@PathVariable String id) {
         studentService.deleteStudentById(id);
